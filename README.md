@@ -13,6 +13,7 @@ This is a list of useful **WordPress** and **Gravity Form** code snippets and fu
 ## Gravity Form
 
 - [Send entry data to third-party](#send-entry-data-to-third-party)
+- [Check entry spam status](#check-entry-spam-status)
 
 ---
 
@@ -37,6 +38,22 @@ function post_to_third_party( $entry, $form ) {
  
     $response = wp_remote_post( $endpoint_url, array( 'body' => $body ) );
     GFCommon::log_debug( 'gform_after_submission: response => ' . print_r( $response, true ) );
+}
+```
+
+### Check entry spam status
+
+```php
+/**
+ * This example shows how you can check if the entry has been marked as spam and prevent the rest of your function from running.
+ */
+add_action( 'gform_after_submission', 'action_gform_after_submission_spam_check', 10, 2 );
+function action_gform_after_submission_spam_check( $entry, $form ) {
+    if ( rgar( $entry, 'status' ) === 'spam' ) {
+        return;
+    }
+ 
+    // The code that you want to run for submissions which aren't spam.
 }
 ```
 
