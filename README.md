@@ -62,7 +62,7 @@ function action_gform_after_submission_spam_check( $entry, $form ) {
 
 ```php
 /**
- * This example demonstrates how the gform_after_submission hook and the <a href="https://theeventscalendar.com/function/tribe_create_event/">tribe_create_event</a> function can be used to create an event in the <a href="https://theeventscalendar.com/product/wordpress-events-calendar/">Events Calendar</a> plugin.
+ * This example demonstrates how the gform_after_submission hook and the tribe_create_event(https://theeventscalendar.com/function/tribe_create_event/) function can be used to create an event in the Events Calendar(https://theeventscalendar.com/product/wordpress-events-calendar/) plugin.
  */
 add_action( 'gform_after_submission', function ( $entry ) {
     if ( ! function_exists( 'tribe_create_event' ) ) {
