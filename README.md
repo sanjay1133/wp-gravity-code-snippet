@@ -14,6 +14,7 @@ This is a list of useful **WordPress** and **Gravity Form** code snippets and fu
 
 - [Send entry data to third-party](#send-entry-data-to-third-party)
 - [Check entry spam status](#check-entry-spam-status)
+- [Create an Events Calendar plugin event](#create-an-events-calendar-plugin-event)
 
 ---
 
@@ -55,6 +56,41 @@ function action_gform_after_submission_spam_check( $entry, $form ) {
  
     // The code that you want to run for submissions which aren't spam.
 }
+```
+
+### Create an Events Calendar plugin event
+
+```php
+/**
+ * This example demonstrates how the gform_after_submission hook and the <a href="https://theeventscalendar.com/function/tribe_create_event/">tribe_create_event</a> function can be used to create an event in the <a href="https://theeventscalendar.com/product/wordpress-events-calendar/">Events Calendar</a> plugin.
+ */
+add_action( 'gform_after_submission', function ( $entry ) {
+    if ( ! function_exists( 'tribe_create_event' ) ) {
+        return;
+    }
+ 
+    $start_date = rgar( $entry, '4' );
+    $start_time = rgar( $entry, '5' );
+    $end_date   = rgar( $entry, '6' );
+    $end_time   = rgar( $entry, '7' );
+ 
+    $args = array(
+        'post_title'            => rgar( $entry, '1' ),
+        'post_content'          => rgar( $entry, '2' ),
+        'EventAllDay'           => (bool) rgar( $entry, '3.1' ),
+        'EventHideFromUpcoming' => (bool) rgar( $entry, '3.2' ),
+        'EventShowInCalendar'   => (bool) rgar( $entry, '3.3' ),
+        'feature_event'         => (bool) rgar( $entry, '3.4' ),
+        'EventStartDate'        => $start_date,
+        'EventStartTime'        => $start_time ? Tribe__Date_Utils::reformat( $start_time, 'H:i:s' ) : null,
+        'EventEndDate'          => $end_date,
+        'EventEndTime'          => $end_time ? Tribe__Date_Utils::reformat( $end_time, 'H:i:s' ) : null,
+    );
+ 
+    GFCommon::log_debug( 'gform_after_submission: tribe_create_event args => ' . print_r( $args, 1 ) );
+    $event_id = tribe_create_event( $args );
+    GFCommon::log_debug( 'gform_after_submission: tribe_create_event result => ' . var_export( $event_id, 1 ) );
+} );
 ```
 
 ---
