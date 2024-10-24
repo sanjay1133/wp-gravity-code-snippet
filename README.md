@@ -6,7 +6,7 @@
 
 ## Overview
 
-This is a list of useful **WordPress** and **Gravity Form** code snippets and functions that I often reference to enhance or clean up my sites. 
+A curated collection of helpful code snippets and functions designed to optimize and improve the functionality of **WordPress** and **Gravity Form** websites.
 
 **Note:** Please be careful and make backups!
 
